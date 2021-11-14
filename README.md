@@ -19,3 +19,31 @@ It also has a constructor, which has the three private variables as arguments.
 -The Accessors each return their appropriate types.
   
 ## HashTableClass.h
+
+This header file defines a statically allocated array with the number of employees, and a hash function in the private section. In the public one, there is an isEmpty, isFull, and some features to add employees or search for them. There will be a menu function in this project.
+
+```cpp
+#include "Employee.h";
+#include <string>;
+#ifndef HASHTABLE_H_
+#define HASHTABLE_H_
+
+class HashTable {
+	private:
+		const int MAX = 1000;
+		Employee numberOfEmployees[MAX];
+		int hashingEmployee(Employee e) {
+			string name = e.getName();
+			hash<string> converted;
+			if (converted(name) >= 0 && converted(name) < sizeof(numberOfEmployees)) {
+
+			}
+			return converted(name);
+		}
+	public:
+		void addEmp(Employee::Employee e);
+		bool isFull();
+		bool isEmpty();
+		bool searchEmp(string s, Employee &reference); //&s are for references
+};
+```
