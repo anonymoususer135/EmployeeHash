@@ -190,3 +190,72 @@ int HashTable::getCollsionCount(){
     return collisionCount;
 }
 ```
+## 11/17/2021
+
+I made an update on some of my files, as well as make a driver file. I will have to create a menu for the file, though. Some notable changes I have made to my project was removing the getCollisionCount() method and instances of it from my HashTable.h file and HashTable.cpp files. And that collision thing has been moved to my new driver file, inside an if statement. 
+The size of the employee increases when an employee is added to the array, and the number of collisions increase when the function fails.
+
+```cpp
+    if (h.insertEmp(e) == true) {
+    	cout<<"Number of Employee successfully added to emp array: "<< employeeCount++ <<endl;
+    }
+    else {
+    	cout<<"Number of Employee failed to added to emp array due to collision: "<< collisionCount++ <<endl;
+    }
+```
+
+Like so, I've made changes to my insertEmp function by making it a boolean function and commenting out the printing stuff. It returns false if the array is already full when the user tries to add a value to it, or it creates a collision, and true if none of those events happen.
+
+```cpp
+bool HashTable::insertEmp(Employee e){
+    if (this->isFull())
+    {
+        //cout << "Employee table is full, unable to insert" << endl;
+        return false;
+    }
+    else
+    {
+        int empIndex=hashFunc(e);
+        if (this->emp[empIndex].getName()!="")
+        {
+            //cout << "Collision happens, unable to insert" << endl;
+            return false;
+            //this->collisionCount++;
+        }
+        else
+        {
+           this->emp[hashFunc(e)]=e;
+           this->empCount++;
+           return true;
+        }
+    }
+}
+```
+
+My entire main CPP file besides the insert function consists of a for loop which iterates through 0 and the maximum value, 1000. It would then loop from 0 to 12 in that for loop, and then take a random letter from the letter list and then make a 12-letter name for an employee. 
+
+```cpp
+    for (int i = 0; i <emp_size; i++)
+        {
+        //within each Employee object,generate a random name of 12 chars
+        for (int j=0;j<12;j++)
+        {
+            letterIndex=rand()%26;
+            empName+=letter[letterIndex];
+   }
+```
+The hireDate would then be formatted, and then the temp variable would increment, assuming that an employee is hired every year. 
+An employee object named e is then created with the name, the string which is the number between 0 and 1000, and the hire date, and then that employee is added to hashTable h.
+
+```cpp
+string hireDate="01/01/"+to_string(temp);
+temp++;
+Employee e=Employee(empName, to_string(i), hireDate);
+h.insertEmp(e); //when that happens it should return true or false
+```
+
+When I ran my code after making the changes, I noticed that all of the occurences had the insert function fail for every 1000 cases. I believe it's because that the emp array is already full when created, considering when I ran it before commenting out the printing stuff in the insert function, the output read that there were collisions. I wonder if I would add something to the emp array in the HashTable header file?
+
+```cpp
+Employee emp[emp_size] = {};
+```
