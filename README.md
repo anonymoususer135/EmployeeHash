@@ -47,3 +47,146 @@ class HashTable {
 		bool searchEmp(string s, Employee &reference); //&s are for references
 };
 ```
+**11/16/2021**
+
+I found out that some of my code was not working, so I decided to change some things, along with making some code fit my project requirements. It looks like this.
+
+```cpp
+#ifndef HASHTABLE_H_
+#define HASHTABLE_H_
+#define emp_size 1000
+
+#include "Employee.h"
+#include <string>
+
+class HashTable
+{
+private:
+    Employee emp[emp_size];
+    int empCount=0;
+    int collisionCount=0;
+    int hashFunc(Employee e);
+public:
+//    void emp(Employee::Employee e);
+
+    void insertEmp(Employee e);
+    bool isFull();
+    bool isEmpty();
+    bool searchEmp(string name, Employee &reference);
+    int getEmCount();
+    int getCollsionCount();
+};
+#endif /* HASHTABLE_H_ */
+```
+
+First, I defined a public integer variable for a max size of 1000, before the class. 
+Inside the class was a private Employee array with the maximum size variable in the square brackets, then an int variable called empCount.
+
+The empCount variable was set to 0 in the private section, but if an employee was added to the list, then it would increase by 1.
+
+There was also a collisionCount variable in case there was a collision. A collision is when a value is added to the index of the array which already had a value.
+
+The hashFunc was the hash function. It would have a hash array called builtInHash, then the result would consist of the modulus between the hashed employee name and the maximum size, which is 1000, since the reslt must be less than 1000.
+
+``cpp
+int HashTable::hashFunc(Employee e) {
+    const std::hash<std::string> builtInHash;
+    const auto result = builtInHash(e.getName())%emp_size;
+    return (int)result;
+}
+```
+
+In the public function there is the insertEmp function, which has an employee variable as an argument. If the array is not full, then the employee index would define itself to hashFunc with the employee argument in its brackets.
+
+If the current index of the function has a value in it, or is not empty, then a collision will happen, and the collisionCount will increase by 1.
+
+```cpp
+int empIndex=hashFunc(e);
+if (this->emp[empIndex].getName()!="")
+   {
+    cout << "Collision happens, unable to insert" << endl;
+    this->collisionCount++;
+   }
+```
+
+If it is empty, then the said index will pick up the hash, and the size of the array will increment by 1.
+
+```cpp
+else
+ {
+    this->emp[hashFunc(e)]=e;
+    this->empCount++;
+  }
+```
+
+The full function consists of the empCount going over the maximum size of 1000 and returning true in that condition.
+
+```cpp
+bool HashTable::isFull(){
+    if (this->empCount>=emp_size)
+    {
+        return true;
+    }
+    else
+        return false;
+}
+```
+
+ It will spark an error message in the insertEmp function if the array is full.
+ ```cpp
+ void HashTable::insertEmp(Employee e){
+    if (this->isFull())
+    {
+        cout << "Employee table is full, unable to insert" << endl;
+
+
+    }
+    else
+    //continued...
+    }
+ ```
+ 
+
+The isEmpty function consists of the size of the array being zero and the function returning true. 
+
+```cpp
+bool HashTable::isEmpty() {
+    if (this->empCount==0)
+    {
+        return true;
+    }
+    else
+        return false;
+}
+```
+
+The searchEmp function consists of a for loop through 0 and the maximum size, and inside that loop, an if statement that if one of the employee names inside the array is the name in the argument of the function, the reference would pick up the information of said employee, and the function will return true.
+
+```cpp
+bool HashTable::searchEmp(string name, Employee &reference)
+{
+    for (int i=0; i<1000; i++)
+    {
+        if (this->emp[i].getName()==name)
+        {
+			reference = Employee(emp[i].getName(), emp[i].getNumber(), emp[i].getHireDate());
+            return true;
+        }
+    }
+    return false;
+
+}
+```
+
+The getEmCount method simply returns empCount, and the getCollisionCount function will return collisionCount.
+
+```cpp
+int HashTable::getEmCount(){
+    return empCount;
+
+}
+
+int HashTable::getCollsionCount(){
+    return collisionCount;
+}
+```
