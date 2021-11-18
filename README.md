@@ -333,9 +333,11 @@ I've also moved the statistics to after the hash table for the employees was gen
         collisionCount++;
     }
             empName="";
-            //employeeCount++;
+            employeeCount++;
         }
     cout<<"Number of Employee successfully added to emp array: "<< h.getEmCount() <<endl;
 
     cout<<"Number of Employee failed to added to emp array due to collision: "<< collisionCount++ <<endl;
 ```
+
+The empName being defined as an empty string is to reset the information after the 12-letter named employee and their info has been added to the table. If it wasn't added, then it would end up as a long name, which wouldn't make sense.
