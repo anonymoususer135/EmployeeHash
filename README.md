@@ -259,3 +259,83 @@ When I ran my code after making the changes, I noticed that all of the occurence
 ```cpp
 Employee emp[emp_size] = {};
 ```
+
+However, after making some changes and testing my code, I finally had some employees generated in the hash, and I created my menu to search for employees or quit the program. I had the user enter either 1 to search or 2 to quit, and if they wanted to search, they would enter a name of the employee. However, since my program was to randomly generate names in my hash table, I had to create a display feature to display all the names and information of the employees, even though it was not listed in my project requirements, as a feature for my menu.
+This menu has three features: the first one is to search for an employee, the second to display 10 of the employees in the list (which is a temporary feature/test, btw) and the third to quit the program.
+
+```cpp
+    cout<<"Number of Employee failed to added to emp array due to collision: "<< collisionCount++ <<endl;
+    cout << "Select a number " << endl;
+    cout << "1. Search for an employee" << endl;
+    cout << "2. Display 10 employees for search test" << endl;
+    cout << "3. Quit" << endl;
+    cin >> choice;
+    while (choice == 1 || choice == 2 || choice == 3) {
+    switch(choice) {
+        case 1:
+        {
+            cout << "Enter name of employee ";
+            cin >> inputName;
+            Employee e;
+            bool searchResult=h.searchEmp(inputName, e);
+            if (searchResult==true)
+            {
+                cout << "" << endl;
+                cout << "Employee name: " << e.getName() << endl;
+                cout << "Employee number: " << e.getNumber() << endl;
+                cout << "Employee hire date: " << e.getHireDate() << endl;
+
+            }
+            else {
+                cout << "Not found" << endl;
+            }
+        }
+                break;
+        case 2:
+
+            h.display10Emp();
+
+            break;
+        case 3: {
+                return 0;
+        }
+        default: {
+                cout << "Invalid input" << endl;
+        }
+
+        }
+        cout << "Select a number " << endl;
+        cout << "1. Search for an employee" << endl;
+        cout << "2. Display 10 employees for search test" << endl;
+        cout << "3. Quit" << endl;
+        cin >> choice;
+    }
+```
+
+I've also moved the statistics to after the hash table for the employees was generated.
+
+```cpp
+    for (int i = 0; i <emp_size; i++)
+        {
+        //within each Employee object,generate a random name of 12 chars
+        for (int j=0;j<12;j++)
+        {
+            letterIndex=rand()%26;
+            empName+=letter[letterIndex];
+        }
+        //generate a hire date
+            string hireDate="01/01/"+to_string(temp);
+            temp++;
+            Employee e=Employee(empName, to_string(i), hireDate);
+            bool insertResult=h.insertEmp(e); //when that happens it should return true or false
+
+    if (insertResult == false) {
+        collisionCount++;
+    }
+            empName="";
+            //employeeCount++;
+        }
+    cout<<"Number of Employee successfully added to emp array: "<< h.getEmCount() <<endl;
+
+    cout<<"Number of Employee failed to added to emp array due to collision: "<< collisionCount++ <<endl;
+```
