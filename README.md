@@ -342,7 +342,7 @@ I've also moved the statistics to after the hash table for the employees was gen
 
 The empName being defined as an empty string is to reset the information after the 12-letter named employee and their info has been added to the table. If it wasn't added, then it would end up as a long name, which wouldn't make sense.
 
-**EDIT 12/2/2021: **
+**EDIT 12/2/2021:**
 
 This is how to make a hash function.
 
